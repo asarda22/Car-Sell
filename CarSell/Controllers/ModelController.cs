@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using CarSell.AppDbContext;
 using CarSell.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CarSell.Controllers
 {
+    [Authorize(Roles = "Admin,Executive")]
     public class ModelController : Controller
     {
         private readonly CarDbContext _db;
