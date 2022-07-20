@@ -19,5 +19,6 @@ namespace CarSell.AppDbContext
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Model> Models { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Car> Cars { get; set; }
     }
 }
