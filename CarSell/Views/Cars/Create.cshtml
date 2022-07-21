@@ -4,6 +4,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script>
+    $(document).ready(function () {
+        var elBrand = $("#Brand");
+        var elModel = $("#Model");
+        elModel.prop('disabled', true);
+
+        elBrand.change(function () {
+            if ($(this).val() == "0") {
+                elModel.prop('disabled', true);
+                elModel.val("0");
+            }
+            else {
+                $.ajax({
+                    url: "/api/models/" + $(this).val(),
+                    method: "Get",
+                    success: function (data) {
+                        elModel.prop('disabled', false);
+                        console.log("Success");
+                        elModel.empty();
+                        elModel.append($('<option/>', { value: '0', text: '--Select a model--' }));
+                        $(data).each(function (index, item) {
+                            elModel.append($('<option/>', { value: item.id, text:item.name }));
+                        })
+                    }
+                })
+            }
+        })
+    })
+</script>
+
 <br /><br /><br /><br />
 <h2 class="text-info">Add a Car</h2>
 <br />
@@ -13,7 +43,8 @@
             <label asp-for="Brands"></label>
         </div>
         <div class="col-4">
-            <select asp-for="Car.BrandID" asp-items="Model.SelectBrandListItems(Model.Brands)" class="form-control"></select>
+            <select asp-for="Car.BrandID" asp-items="Model.SelectBrandListItems(Model.Brands)" class="form-control" id="Brand"></select>
+            <span asp-validation-for="Car.BrandID" class="text-danger"></span>
         </div>
         <div class="col-auto">
             <label asp-for="Car.ImagePath"></label>
@@ -27,7 +58,8 @@
             <label asp-for="Models"></label>
         </div>
         <div class="col-4">
-            <select asp-for="Car.ModelID" asp-items="Model.SelectModelListItems(Model.Models)" class="form-control"></select>
+            <select asp-for="Car.ModelID" asp-items="Model.SelectModelListItems(Model.Models)" class="form-control" id="Model"></select>
+            <span asp-validation-for="Car.ModelID" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -36,6 +68,7 @@
         </div>
         <div class="col-4">
             <input asp-for="Car.Year" class="form-control" />
+            <span asp-validation-for="Car.Year" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -44,6 +77,7 @@
         </div>
         <div class="col-4">
             <input asp-for="Car.Mileage" class="form-control" />
+            <span asp-validation-for="Car.Mileage" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -52,12 +86,14 @@
         </div>
         <div class="col-4">
             <input asp-for="Car.Price" class="form-control" />
+            <span asp-validation-for="Car.Price" class="text-danger"></span>
         </div>
         <div class="col-1">
             <label asp-for="Car.Currency"></label>
         </div>
         <div class="col-2">
             <select asp-for="Car.Currency" asp-items="Model.SelectCurrencyListItems(Model.Currencies)" class="form-control"></select>
+            <span asp-validation-for="Car.Currency" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -76,6 +112,7 @@
         </div>
         <div class="col-4">
             <input asp-for="Car.SellerName" class="form-control" />
+            <span asp-validation-for="Car.SellerName" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -84,6 +121,7 @@
         </div>
         <div class="col-4">
             <input asp-for="Car.SellerEmail" class="form-control" />
+            <span asp-validation-for="Car.SellerEmail" class="text-danger"></span>
         </div>
     </div>
     <div class="form-group row">
@@ -92,6 +130,7 @@
         </div>
         <div class="col-4">
             <input asp-for="Car.SellerPhone" class="form-control" />
+            <span asp-validation-for="Car.SellerPhone" class="text-danger"></span>
         </div>
     </div>
     <br />

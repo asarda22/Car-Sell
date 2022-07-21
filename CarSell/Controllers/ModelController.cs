@@ -86,5 +86,13 @@ namespace CarSell.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+
+        [AllowAnonymous]
+        [HttpGet("api/models/{brandId}")]
+        public IEnumerable<Model> GetModels(int brandId)
+        {
+            return _db.Models.ToList().Where(m=>m.BrandFK==brandId);
+        }
     }
 }
