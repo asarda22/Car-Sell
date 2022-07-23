@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.IO;
 using Microsoft.AspNetCore.Hosting.Internal;
+using cloudscribe.Pagination.Models;
 
 namespace CarSell.Controllers
 {
@@ -31,11 +32,30 @@ namespace CarSell.Controllers
             };
         }
 
-        public IActionResult Index()
+        /*public IActionResult IndexOld()
         {
             //fetch dependent column based on foreign key
             var cars = _db.Cars.Include(m => m.Brand).Include(m=>m.Model);
             return View(cars.ToList());
+        }*/
+
+        public IActionResult Index(int pageSize = 3, int pageNumber=1)
+        {
+            //fetch dependent column based on foreign key
+            int exclude = (pageSize * pageNumber) - pageSize;
+            var cars = _db.Cars.Include(m => m.Brand).Include(m => m.Model)
+                .Skip(exclude)
+                .Take(pageSize);
+            //  return View(cars.ToList());
+
+            var pageResults = new PagedResult<Car>
+            {
+                Data = cars.AsNoTracking().ToList(),
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalItems = _db.Cars.Count()
+            };
+            return View(pageResults);
         }
 
         public IActionResult Create()

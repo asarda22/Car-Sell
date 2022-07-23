@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CarSell.Models.Car>;
+﻿@model cloudscribe.Pagination.Models.PagedResult<Car>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,7 +23,7 @@
                 <th>Seller Information</th>
                 <th></th>
             </tr>
-            @foreach (var item in Model)
+            @foreach (var item in Model.Data)
             {
                 <tr>
                     <td><img src="@Html.DisplayFor(m=> item.ImagePath)" width="150px" height="100px" /></td>
@@ -42,6 +42,19 @@
                 </tr>
             }
         </table>
+        <cs-pager cs-paging-pagenumber="(int)Model.PageNumber"
+                  cs-paging-totalitems="(int)Model.TotalItems"
+                  cs-paging-pagesize="Model.PageSize"
+                  cs-pagenumber-param="pageNumber"
+                  asp-controller="Cars"
+                  asp-action="Index"
+                  cs-pager-li-current-class="page-item active"
+                  cs-pager-li-other-class="page-item"
+                  cs-pager-li-non-active-class="page-item disabled"
+                  cs-pager-link-current-class="page-link"
+                  cs-pager-link-other-class="page-link">
+        >
+        </cs-pager>
     </div>
 </div>
 
